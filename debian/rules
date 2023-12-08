@@ -31,11 +31,15 @@ FLATPAK_EXTENSION_TARGET = var/lib/flatpak/extension/org.freedesktop.Platform.GL
 
 override_dh_fixperms:
 	# Keep suid bit
-	dh_fixperms --exclude libtls-padding.so
+	dh_fixperms --exclude libtls-padding.so --exclude libgtk6216workaround.so
 
 override_dh_install:
 	dh_install
 
-	# Create the flatpak extension
+	# Create the tls-padding flatpak extension
 	mkdir -p $(CURDIR)/debian/flatpak-extension-gl-hybris-tls-padding/$(FLATPAK_EXTENSION_TARGET)
 	cp -Ra $(CURDIR)/debian/libtls-padding0/$(libdir)/* $(CURDIR)/debian/flatpak-extension-gl-hybris-tls-padding/$(FLATPAK_EXTENSION_TARGET)
+
+	# Create the droidian-workarounds flatpak extension
+	mkdir -p $(CURDIR)/debian/flatpak-extension-gl-hybris-droidian-workarounds/$(FLATPAK_EXTENSION_TARGET)
+	cp -Ra $(CURDIR)/debian/libdroidian-workarounds/$(libdir)/* $(CURDIR)/debian/flatpak-extension-gl-hybris-droidian-workarounds/$(FLATPAK_EXTENSION_TARGET)

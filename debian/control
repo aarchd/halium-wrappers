@@ -44,3 +44,26 @@ Description: tls-padding library shipped for the org.freedesktop.Platform.GL hyb
  .
  If you use libtls-padding0 and flatpak, it might be a good idea
  installing this.
+
+Package: libdroidian-workarounds
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}
+Description: Various workarounds for Droidian-specific workloads
+ This package contains various workarounds for Droidian-specific
+ workloads. Currently it ships a library that workarounds gtk bug #6216.
+
+Package: flatpak-extension-gl-hybris-droidian-workarounds
+# We're tied to the architecture supported by libhybris+flatpak
+Architecture: amd64 arm64 armhf i386
+# hard dependencies are not really needed since we're going to
+# copy the libraries anyway, but it's good to avoid eventual desyncs
+Depends: ${misc:Depends},
+         flatpak-extension-gl-hybris,
+         libdroidian-workarounds (= ${binary:Version}),
+Description: Droidian-specific workarounds shipped for the org.freedesktop.Platform.GL hybris runtime extension
+ This package contains the libraries in libdroidian-workarounds shipped
+ inside the hybris extension for flatpak's org.freedesktop.platform.GL runtime.
+ .
+ If you use libdroidian-workarounds and flatpak, it might be a good idea
+ installing this.
