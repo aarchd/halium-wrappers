@@ -7,6 +7,8 @@ Build-Depends: debhelper (>= 10),
                libhybris-dev,
                libhybris-common-dev,
                libandroid-properties-dev,
+               zlib1g-dev,
+               libgles2-mesa-dev,
 Standards-Version: 4.5.0.3
 Vcs-Browser: https://github.com/hybris-mobian/halium-wrappers
 Vcs-Git: https://github.com/hybris-mobian-releng/halium-wrappers.git
@@ -51,7 +53,8 @@ Multi-Arch: same
 Depends: ${misc:Depends}
 Description: Various workarounds for Droidian-specific workloads
  This package contains various workarounds for Droidian-specific
- workloads. Currently it ships a library that workarounds gtk bug #6216.
+ workloads. Currently it ships a library that workarounds gtk bug #6216, as well
+ as a library that caches GLESv2 shader programs.
 
 Package: flatpak-extension-gl-hybris-droidian-workarounds
 # We're tied to the architecture supported by libhybris+flatpak
