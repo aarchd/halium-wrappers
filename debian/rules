@@ -31,7 +31,7 @@ FLATPAK_EXTENSION_TARGET = var/lib/flatpak/extension/org.freedesktop.Platform.GL
 
 override_dh_fixperms:
 	# Keep suid bit
-	dh_fixperms --exclude libtls-padding.so --exclude libgtk6216workaround.so
+	dh_fixperms --exclude libtls-padding.so --exclude libgtk6216workaround.so --exclude libglesshadercache.so
 
 override_dh_install:
 	dh_install
