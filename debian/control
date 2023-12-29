@@ -10,8 +10,8 @@ Build-Depends: debhelper (>= 10),
                zlib1g-dev,
                libgles2-mesa-dev,
 Standards-Version: 4.5.0.3
-Vcs-Browser: https://github.com/hybris-mobian/halium-wrappers
-Vcs-Git: https://github.com/hybris-mobian-releng/halium-wrappers.git
+Vcs-Browser: https://github.com/droidian/halium-wrappers
+Vcs-Git: https://github.com/droidian/halium-wrappers.git
 
 Package: halium-wrappers
 Architecture: any
