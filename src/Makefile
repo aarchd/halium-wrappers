@@ -2,9 +2,11 @@ TRIPLET ?= $(shell gcc -dumpmachine)
 DESTDIR ?= /
 
 PACKAGES = libandroid-properties
+GLESSHADERCACHE_PACKAGES = glesv2 gl
 
 CFLAGS = -O2 $(shell pkg-config --cflags $(PACKAGES))
 LIBS = $(shell pkg-config --libs $(PACKAGES))
+GLESSHADERCACHE_LIBS = $(shell pkg-config --libs $(GLESSHADERCACHE_PACKAGES))
 
 SYMLINKS = \
 	android_bootctl \
@@ -32,7 +34,7 @@ libgtk6216workaround.so: gtk6216workaround.c
 	$(CC) -shared $< -o $@
 
 libglesshadercache.so: glesshadercache.c
-	$(CC) -fPIC -shared $< -o $@
+	$(CC) -fPIC -shared $< -o $@ $(GLESSHADERCACHE_LIBS)
 
 install: waitforservice libtls-padding.so libglesshadercache.so libgtk6216workaround.so halium-lxc-exec.sh android-service.sh systemd/android-service@.service systemd/android-service@hwcomposer.service.d/10-hwcomposer.conf
 	install -d $(DESTDIR)/usr/bin
