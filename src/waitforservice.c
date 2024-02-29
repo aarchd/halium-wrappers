@@ -17,6 +17,7 @@
  *
  */
 
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -91,7 +92,8 @@ static void parse_properties(const char* key, const char* name, void* cookie)
     }
 
     for (int i = 1; i < args->count; i++) {
-        if (fnmatch(args->argv[i], key, FNM_NOESCAPE) == 0 && strcmp(name, property_value) == 0) {
+        if (fnmatch(args->argv[i], key, FNM_NOESCAPE | FNM_EXTMATCH) == 0 &&
+                strcmp(name, property_value) == 0) {
             /* Found something! */
             fprintf(stdout, "%s: %s\n", key, name);
             tripped = 1;
