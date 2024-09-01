@@ -5,6 +5,7 @@ ANDROID_SERVICE_SINGLE="${1}"
 ANDROID_SERVICE_ACTION="${2}"
 ANDROID_SERVICE_STAMP_DIRECTORY="/run/android-service"
 ANDROID_SERVICE_STAMP="${ANDROID_SERVICE_STAMP_DIRECTORY}/${ANDROID_SERVICE_SINGLE}-stamp"
+LXC_CONTAINER_NAME="android"
 
 error() {
 	echo "E: ${@}" >&2
@@ -45,9 +46,9 @@ stop() {
 		WAITFORSERVICE_VALUE="stopped" timeout 5 waitforservice init.svc.${service_service}
 	fi
 
-	if [ "${ANDROID_SERVICE_FORCE_KILL}" == "yes" ] || [ "${?}" == "124" ]; then
-		# Timeout reached, forcibly terminate the service
-		android_kill -9 $(getprop init.svc_debug_pid.${service_service})
+	if [ "${ANDROID_SERVICE_FORCE_KILL}" == "yes" ] ; then
+		pid=$(lxc-attach -n ${LXC_CONTAINER_NAME} -- /bin/pidof ${service_process} \;)
+		[ "${pid}" != "" ] && android_kill -9 ${pid}
 		setprop init.svc.${service_service} stopped
 	fi
 }
@@ -61,6 +62,7 @@ fi
 
 service_service=$(echo ${service} | awk '{ print $2 }')
 service_path=$(echo ${service} | awk '{ print $3 }')
+service_process=$(echo ${service_path} | awk -F "/" '{print $NF}')
 
 mkdir -p "${ANDROID_SERVICE_STAMP_DIRECTORY}"
 
