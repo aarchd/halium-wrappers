@@ -6,7 +6,7 @@ GLESSHADERCACHE_PACKAGES = glesv2 gl
 
 CFLAGS = -O2 $(shell pkg-config --cflags $(PACKAGES))
 LIBS = $(shell pkg-config --libs $(PACKAGES))
-GLESSHADERCACHE_LIBS = $(shell pkg-config --libs $(GLESSHADERCACHE_PACKAGES))
+GLESSHADERCACHE_LIBS = $(shell pkg-config --libs $(GLESSHADERCACHE_PACKAGES)) -lz
 
 SYMLINKS = \
 	android_bootctl \
