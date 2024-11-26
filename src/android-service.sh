@@ -17,7 +17,11 @@ current_status() {
 }
 
 start() {
-	[ "$(current_status)" == "running" ] && return 0
+	if [ "$(current_status)" == "running" ]
+	then
+		touch ${ANDROID_SERVICE_STAMP}
+		return 0
+	fi
 
 	# Start operation is weird since it's kickstarted by Android's
 	# init - thus we assume that if ${ANDROID_SERVICE_STAMP} doesn't
