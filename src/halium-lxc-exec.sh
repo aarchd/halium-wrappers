@@ -22,5 +22,9 @@ found_path=$(whereis -b -B ${ANDROID_SEARCH_PATH} -f ${TARGET_BINARY} | head -n 
 # Unset eventual LD_PRELOAD
 unset LD_PRELOAD
 
-# Finally execute
-exec /usr/bin/lxc-attach -n ${LXC_CONTAINER_NAME} -- ${found_path/${LXC_CONTAINER_PATH}/} ${@}
+# On some devices, last argument is removed by lxc-attach
+if test -f /var/lib/droidian/lxc_attach_workaround ; then
+    exec /usr/bin/lxc-attach -n ${LXC_CONTAINER_NAME} -- ${found_path/${LXC_CONTAINER_PATH}/} ${@} ""
+else
+    exec /usr/bin/lxc-attach -n ${LXC_CONTAINER_NAME} -- ${found_path/${LXC_CONTAINER_PATH}/} ${@}
+fi
