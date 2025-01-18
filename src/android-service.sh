@@ -6,6 +6,7 @@ ANDROID_SERVICE_ACTION="${2}"
 ANDROID_SERVICE_STAMP_DIRECTORY="/run/android-service"
 ANDROID_SERVICE_STAMP="${ANDROID_SERVICE_STAMP_DIRECTORY}/${ANDROID_SERVICE_SINGLE}-stamp"
 LXC_CONTAINER_NAME="android"
+DEFAULT_WAIT_TIMEOUT=60
 
 error() {
 	echo "E: ${@}" >&2
@@ -33,8 +34,14 @@ start() {
 		android_start ${service_service}
 	fi
 
+	if [ -z $WAIT_TIMEOUT ] ; then
+		WAIT_TIMEOUT=$DEFAULT_WAIT_TIMEOUT
+	fi
+
 	# Now, wait
-	waitforservice init.svc.${service_service}
+	echo "Waiting ${service_service} for $WAIT_TIMEOUT seconds"
+	timeout $WAIT_TIMEOUT waitforservice init.svc.${service_service}
+	(( $? != 0 )) && echo "Failed to start ${service_service}"
 
 	# Once we return, create the stamp file
 	touch ${ANDROID_SERVICE_STAMP}
